@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Рассчет функции</title> 
+    <meta charset="utf-8">
+	<style>
+        body {
+            display: flex;
+            justify-content: center;
+        }
+		table {
+            min-width: 100%;
+			border:1px solid #b3adad;
+			border-collapse:collapse;
+			padding:5px;
+
+		}
+		table th {
+			border:1px solid #b3adad;
+			padding:5px;
+			background: #f0f0f0;
+			color: #313030;
+		}
+		table td {
+			border:1px solid #b3adad;
+			text-align:center;
+			padding:5px;
+			background: #ffffff;
+			color: #313030;
+		}
+        input[type="submit"] {
+            -webkit-writing-mode: horizontal-tb !important;
+            -webkit-appearance: button;
+            border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+            border-style: solid;
+            border-width: 1px;
+            padding: 1px 7px 2px;
+            text-rendering: auto;
+            color: initial;
+            display: inline-block;
+            text-align: start;
+            margin: 0.8em 0em;
+            font: 400 20px system-ui;
+        }
+	</style>
+</head>
+<body>
+    <span style="font-size: large; ">
+        <form action="/res" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Наименование Аргумента<br></th>
+                        <th>Левая граница диапазона аргумента<br></th>
+                        <th>Правая граница диапазона аргумента<br></th>
+                        <th>Дискрет аргумента<br></th>
+                        <th>Значение аргумента<br></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% $arguments.each do |argument| %>
+                        <% if argument.discrete == 0 %>
+                            <tr>
+                                <td><%= argument.name %></td>
+                                <td><%= argument.left %></td>
+                                <td><%= argument.right %></td>
+                                <td>---</td>
+                                <td>Кол-во знаков после запятой<br><input
+                                        type="number"
+                                        name="<%= argument.name %>"
+                                        step="1"
+                                        min="0"
+                                        max="<15"
+                                        value="0"
+                                        required
+                                ></td>
+                            </tr>
+                        <% else %>
+                        <tr>
+                            <td><%= argument.name %></td>
+                            <td><%= argument.left %></td>
+                            <td><%= argument.right %></td>
+                            <td><%= argument.discrete %></td>
+                            <td><input
+                                    type="number"
+                                    name="<%= argument.name %>"
+                                    step="<%= argument.discrete %>"
+                                    min="<%= argument.left %>"
+                                    max="<%= argument.right %>"
+                                    value="<%= argument.left %>"
+                                    required
+                            ></td>
+                        </tr>
+                        <% end %>
+                    <%end %>
+                </tbody>
+            </table>
+            <input type="submit" value="Рассчитать">
+        </form>
+    </span>
+</body>
+</html>
